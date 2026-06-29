@@ -1,0 +1,217 @@
+{% extends 'recipes/base.html' %}
+
+{% block content %}
+<div
+id="loadingSpinner"
+style="
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(255,255,255,.9);
+justify-content:center;
+align-items:center;
+z-index:9999;">
+
+<div class="spinner-border text-warning"
+style="width:5rem;height:5rem;"
+role="status">
+
+</div>
+
+</div>
+
+<!-- HERO SECTION -->
+<section class="hero">
+    <div class="container text-center">
+
+        <h1 class="display-3 fw-bold">
+            🥗 KOCINA
+        </h1>
+
+        <p class="lead mb-4">
+            Discover Delicious Vegetarian Recipes
+        </p>
+
+        <form method="GET">
+
+            <div class="row justify-content-center">
+
+                <div class="col-md-8">
+
+                    <input
+                        type="text"
+                        name="recipe"
+                        value="{{ search_query }}"
+                        class="form-control form-control-lg"
+                        placeholder="Search Veg Recipes..."
+                    >
+
+                </div>
+
+                <div class="col-md-2 mt-3 mt-md-0">
+
+                    <button class="btn btn-warning btn-lg w-100">
+
+                        🔍 Search
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </form>
+
+    </div>
+</section>
+
+
+<!-- RECIPES -->
+
+<div class="container mt-5">
+
+    {% if meals %}
+
+    <div class="row">
+
+        {% for meal in meals %}
+
+        <div class="col-lg-6 col-xl-4 mb-4">
+
+            <div class="card recipe-card shadow-lg h-100">
+
+                <img src="{{ meal.image }}"
+                     class="card-img-top recipe-image"
+                     alt="{{ meal.name }}">
+
+                <div class="card-body">
+
+                    <h3 class="card-title">
+
+                        {{ meal.name }}
+
+                    </h3>
+
+                    <span class="badge bg-success">
+
+                        {{ meal.category }}
+
+                    </span>
+
+                    <span class="badge bg-primary">
+
+                        {{ meal.area }}
+
+                    </span>
+
+                    <hr>
+
+                    <h5>
+
+                        🧂 Ingredients
+
+                    </h5>
+
+                    <ul class="ingredient-list">
+
+                        {% for item in meal.ingredients %}
+
+                        <li>
+
+                            ✔ {{ item.measure }} {{ item.ingredient }}
+
+                        </li>
+
+                        {% endfor %}
+
+                    </ul>
+
+                    <hr>
+
+                    <h5>
+
+                        👨‍🍳 Instructions
+
+                    </h5>
+
+                    <p class="instruction-text">
+
+                        {{ meal.instructions|truncatewords:45 }}
+
+                    </p>
+
+                </div>
+
+                <div class="card-footer bg-white border-0">
+
+                    <div class="d-grid gap-2">
+
+                        <button
+                                class="btn btn-outline-danger favorite-btn">
+
+                            ❤️ Favorite
+
+                        </button>
+
+                        <a href="{{ meal.youtube }}"
+                           target="_blank"
+                           class="btn btn-danger">
+
+                            ▶ Watch on YouTube
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    {% elif no_results %}
+
+    <div class="text-center mt-5">
+
+        <div class="card shadow p-5">
+
+            <h1>
+
+                😔
+
+            </h1>
+
+            <h2>
+
+                No Vegetarian Recipe Found
+
+            </h2>
+
+            <p>
+
+                Try searching for:
+
+            </p>
+
+            <h5>
+
+                Pasta • Vegetarian • Mushroom • Salad • Arrabiata
+
+            </h5>
+
+        </div>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}
